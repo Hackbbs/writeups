@@ -210,5 +210,10 @@ Mais pas besoin de cracker quoi que ce soit, le hash avec les caractères en min
 
 **Flag**: `9342bdeba5a87c209fe12d5a55dce8be`  
 
-En conclusion, il paraît beaucoup plus difficile de se protéger contre les injection SQL en aval (Mise en place de WAF et de filtrage de requêtes) qu'en amont: Opter pour un système par requêtes préparées élimine toute attaque connue à ce jour et nous apparaît bien plus simple et bon marché à mettre en place.
+En conclusion, il paraît beaucoup plus difficile de se protéger contre les injection SQL en aval (Mise en place de WAF et de filtrage de requêtes) qu'en amont: Opter pour un système par requêtes préparées élimine toute attaque connue à ce jour et nous apparaît bien plus simple et bon marché à mettre en place. 
 À bientôt pour de nouvelles aventures!
+
+## Authors
+* Sliim <sliim@mailoo.org>
+* ZadYree <zadyree@tuxfamily.org>
+* GoT <pierre.rambaud86@gmail.com>

@@ -140,3 +140,6 @@ It find "i<3Js"
 We write this in the input, and omfg, an hash: `b3336efd42e2978035cb54f85f1654f6`
 
 **Flag**: `b3336efd42e2978035cb54f85f1654f6`
+
+## Authors
+* GoT <pierre.rambaud86@gmail.com>
