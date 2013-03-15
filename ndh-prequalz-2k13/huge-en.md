@@ -3,10 +3,19 @@ Huge.js - Writeup
 
 ## Intro
 
-"Find the correct unlock code. Be ready to wait, it is huuuuuge."
+Every years, HackerVoize prepared many challenges for our fun and our nerves!
+
+This year they said "Find the correct unlock code. Be ready to wait, it is huuuuuge." (http://quals.nuitduhack.com/challenges/view/3)
+
+The first thing I think is, "How huge?". I didn't think it would do as much!
+
+Yes, a 25MB javascript file that could not be opened with graphical editor without crash...
 
 ## File recovery
-In first open file with vim and we can directly see interesting functions at the beginning
+Ok, let's go.
+
+In first open file with vim, sed, or other command line editor that can read the beginning of the file.
+
 
 ```
 function d() {
@@ -21,13 +30,14 @@ function x(c, k) {
   }
 }
 if (!d()) {
-    window[x('\x40\x33\x58\x58\x5e','\x21\x5f\x3d\x2a\x2a\x2a\x24\x24')]=null; //alert()
-    window[x('\x44\x29\x42\x42','\x21\x5f\x23\x2e\x2b\x28\x3f\x2d')]( //eval()
+    window[x('\x40\x33\x58\x58\x5e','\x21\x5f\x3d\x2a\x2a\x2a\x24\x24')]=null;
+    window[x('\x44\x29\x42\x42','\x21\x5f\x23\x2e\x2b\x28\x3f\x2d')](...
 ```
 
-To solutions to retrieve the content 
 Two solutions are available to retrieve the contents.
-With firebug (firebox add-on), by writing `console.log(window)` we notice that the function is loaded and displayed in plain text.
+
+With firebug (firebox add-on), by writing `console.log(window)`, we notice that the function is loaded and displayed in plain text.
+
 Or via a simple python script
 
 ```
@@ -45,7 +55,7 @@ Or via a simple python script
 def x(c, k):
     o = ''
     for i in range(len(c)):
-        o += (chr(ord(c[i])^ord(k[i%len(k)])))
+        o += chr(ord(c[i])^ord(k[i%len(k)]))
     return o
 
 
@@ -72,14 +82,14 @@ decode('huge.js', 'huge-readable.js')
 ```
 
 
-## Main information? 
+## Main information
 
-Open the huge-readable.js file and admire the result
+Open the huge-readable.js file and admire the result.
 
 ```
 xxx('hello') != '5d41402abc4b2a76b9719d911017c592'
 ```
-This look like an md5 hash and it's confirmed quickly. So xxx() generate md5 hash ;)
+This look like an md5 hash and it's confirmed quickly. So xxx() function generate md5 hash ;)
 
 
 ```
@@ -99,16 +109,23 @@ function unlock(node) {
 } /* Create an input box */
 ```
 
-We must find a code with 5 characters: code.length == 5
-And an md5 hash beginning by `b3336efd42e29780̀` and for the rest we do not care because HashCat can save us \o/
+We must find a code with 5 characters: `code.length == 5`
+And an md5 hash beginning by `b3336efd42e29780̀` and for the rest we do not care because HashCat can saved us \o/
 
 
 ## HashCat FTW
 
-For those who do not know Hashcat is the world’s fastest CPU-based password recovery tool.
+For those who do not know, Hashcat is a GPGPU cracker that is optimized for cracking performance. (http://hashcat.net)
+
+We'll use specific option to retrieve password :
+- `-m 5100` Use Half-md5
+- `--pw-max 5` Max length
+- `--customer-charset1 "?a"` equal to `"?l?u?d?s"` (`?l = abcdefghijklmnopqrstuvwxyz`, `?u = ABCDEFGHIJKLMNOPQRSTUVWXYZ`, `?d = 0123456789`, `?s =  !"#$%&'()*+,-./:;<=>?@[\]^_\`{|}~`)
+- `b3336efd42e29780``0000000000000000` The half md5 with only 0 to fill what's missing
+- `?1?1?1?1?1` What charset will be used
 
 ```
-./cudaHashcat-lite64.bin -m 5100 --status --pw-max 5 --custom-charset1 "?l?u?d?s" b3336efd42e297800000000000000000 "?1?1?1?1?1"
+./cudaHashcat-lite64.bin -m 5100 --status --pw-max 5 --custom-charset1 "?a" b3336efd42e297800000000000000000 "?1?1?1?1?1"
 cudaHashcat-lite v0.14 by atom starting...
 
 Password lengths: 1 - 5
@@ -131,15 +148,13 @@ Progress.......: 4365926400/7737809375 (56.42%)
 Speed.GPU.#1...:   436.8M/s
 HWMon.GPU.#1...: -1% Util, 63c Temp, -1% Fan
 
-Started: Mon Mar 11 21:15:24 2013
-Stopped: Mon Mar 11 21:15:36 2013
-
 ```
 
-It find "i<3Js"
+It find `i<3Js`
 We write this in the input, and omfg, an hash: `b3336efd42e2978035cb54f85f1654f6`
 
 **Flag**: `b3336efd42e2978035cb54f85f1654f6`
 
+
 ## Authors
-* GoT <pierre.rambaud86@gmail.com>
+* GoT (http://rambaudpierre.fr)
