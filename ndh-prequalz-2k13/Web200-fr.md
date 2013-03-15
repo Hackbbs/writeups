@@ -216,4 +216,4 @@ En conclusion, il paraît beaucoup plus difficile de se protéger contre les inj
 ## Authors
 * Sliim <sliim@mailoo.org>
 * ZadYree <zadyree@tuxfamily.org>
-* GoT <pierre.rambaud86@gmail.com>
+* GoT <http://rambaudpierre.fr>
